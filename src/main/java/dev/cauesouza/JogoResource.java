@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -41,6 +42,12 @@ public class JogoResource {
     @Path("/{id}")
     public Jogo updateJogo(@PathParam("id") Long id, Jogo jogoUpdate){
         return jogoService.updateJogo(id,jogoUpdate);
+    }
+
+    @PATCH
+    @Path("/{id}")
+    public Jogo updateJogoParcial(@PathParam("id") Long id, Jogo jogoUpdateP){
+        return jogoService.updateParcialJogo(id, jogoUpdateP);
     }
 
     @DELETE

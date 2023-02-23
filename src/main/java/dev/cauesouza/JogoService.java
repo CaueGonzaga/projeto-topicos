@@ -44,7 +44,34 @@ public class JogoService {
 
         return jogo;
     }
+    @Transactional
+    public Jogo updateParcialJogo(Long id, Jogo jogoRecebido){
 
+        Jogo jogoPersistido = Jogo.findById(id);
+        return verificarUpdate(jogoPersistido, jogoRecebido);
+        
+    }
+    
+    public Jogo verificarUpdate(Jogo jogoPersistido , Jogo jogoRecebido){
+
+        if(jogoRecebido.getNome() != null && !jogoRecebido.getNome().isBlank()){
+            jogoPersistido.setNome(jogoRecebido.getNome());
+        }
+        if(jogoRecebido.getDataLanca() != null && !jogoRecebido.getDataLanca().isBlank()){
+            jogoPersistido.setDataLanca(jogoRecebido.getDataLanca());
+        }
+        if(jogoRecebido.getGenero() != null && !jogoRecebido.getGenero().isBlank()){
+            jogoPersistido.setGenero(jogoRecebido.getGenero());
+        }
+        if(jogoRecebido.getConsole() != null && !jogoRecebido.getConsole().isBlank()){
+            jogoPersistido.setConsole(jogoRecebido.getConsole());
+        }
+        if(jogoRecebido.getPreco() >= 0){
+            jogoPersistido.setPreco(jogoRecebido.getPreco());
+        }
+
+        return jogoPersistido;
+    }
     @DELETE
     @Transactional
     public boolean deleteJogo(Long id){
