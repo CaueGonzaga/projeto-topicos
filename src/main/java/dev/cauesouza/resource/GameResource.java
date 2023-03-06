@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -63,5 +64,14 @@ public class GameResource {
     @Path("/{name}")
     public List <Game> getGamesByName(@PathParam("name")String name){
         return gameRepository.findByName(name);
+    }
+
+    @DELETE
+    @Transactional
+    @Path("/{id}")
+    public String deleteGameById (@PathParam("id")Long id){
+        boolean deleted = gameRepository.deleteById(id);
+        if(deleted) return "Deleted with success";
+        else return "Not found";
     }
 }
