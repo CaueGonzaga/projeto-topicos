@@ -19,22 +19,22 @@ public class Geek {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private String origin;
 
-    private String categories;
+    private String rating;
 
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private String model;
 
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "id_geek")
-    private ShopCart shopCart;
+    @JoinColumn(name = "id_category")
+    private Category category;
 
 }

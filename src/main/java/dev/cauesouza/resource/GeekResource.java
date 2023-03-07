@@ -1,6 +1,7 @@
 package dev.cauesouza.resource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -14,11 +15,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import dev.cauesouza.repository.CategoryRepository;
 import dev.cauesouza.repository.GeekRepository;
+import dev.cauesouza.dto.GeekDTO;
+import dev.cauesouza.dto.GeekResponseDTO;
 import dev.cauesouza.model.Geek;
 
 
-@Path("/geek")
+@Path("/geeks")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GeekResource {
@@ -26,12 +30,27 @@ public class GeekResource {
     @Inject
     GeekRepository geekRepository;
 
+    @Inject
+    CategoryRepository categoryRepository;
+
     @POST
     @Transactional
-    public Geek createGeek(Geek newGeek){
-        geekRepository.persist(newGeek);
-        return newGeek;
+    public GeekResponseDTO insert (GeekDTO dto){
+        Geek entity = new Geek();
+        System.out.println(dto.getDescription());
+        entity.setDescription(dto.getDescription());
+        entity.setOrigin(dto.getOrigin());
+        entity.setRating(dto.getRating());
+        entity.setModel(dto.getModel());
+        entity.setPrice(dto.getPrice());;
+        entity.setCategory(categoryRepository.findById(dto.getIdCategory()));
+        geekRepository.persist(entity);
+        return new GeekResponseDTO(entity);
     }
+    // public Geek createGeek(Geek newGeek){
+    //     geekRepository.persist(newGeek);
+    //     return newGeek;
+    // }
 
     @PUT
     @Transactional
@@ -41,7 +60,7 @@ public class GeekResource {
 
         Geek.setDescription(GeekUpdated.getDescription());
         Geek.setOrigin(GeekUpdated.getOrigin());
-        Geek.setCategories(GeekUpdated.getCategories());
+        Geek.setRating(GeekUpdated.getRating());
         Geek.setModel(GeekUpdated.getModel());
         Geek.setPrice(GeekUpdated.getPrice());
 
@@ -49,10 +68,16 @@ public class GeekResource {
     }
 
     @GET
-    public List <Geek> listAll(){
-        List <Geek> list = geekRepository.listAllOrdenated();
-        return list;
+    public List<GeekResponseDTO> listAll(){
+        return geekRepository.findAll()
+        .stream()
+        .map(geek -> new GeekResponseDTO(geek))
+        .collect(Collectors.toList());
     }
+    // public List <Geek> listAll(){
+    //     List <Geek> list = geekRepository.listAllOrdenated();
+    //     return list;
+    // }
 
     @GET
     @Path("/{id}")
@@ -61,7 +86,7 @@ public class GeekResource {
     }
 
     @GET
-    @Path("/{name}")
+    @Path("/search/{name}")
     public List <Geek> getGeeksByName(@PathParam("name")String name){
         return geekRepository.findByName(name);
     }

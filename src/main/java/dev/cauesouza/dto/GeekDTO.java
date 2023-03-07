@@ -1,37 +1,24 @@
 package dev.cauesouza.dto;
 
+import lombok.Getter;
 
+@Getter
 public class GeekDTO {
 
     private String description;
     private String origin;
-    private String categories;
+    private String rating;
+    private String model;
     private double price;
+    private Long idCategory;
 
-    
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
+    public GeekDTO (String description, String origin, String rating, String model, double price, Long idCategory){
         this.description = description;
-    }
-    public String getOrigin() {
-        return origin;
-    }
-    public void setOrigin(String origin) {
         this.origin = origin;
-    }
-    public String getCategories() {
-        return categories;
-    }
-    public void setCategories(String categories) {
-        this.categories = categories;
-    }
-    public double getPrice() {
-        return price;
-    }
-    public void setPrice(double price) {
+        this.rating = rating;
+        this.model = model;
         this.price = price;
+        this.idCategory = idCategory;
     }
 
 }
