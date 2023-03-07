@@ -1,8 +1,10 @@
 package dev.cauesouza.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class GeekDTO {
 
     private String description;

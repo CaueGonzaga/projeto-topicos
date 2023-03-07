@@ -10,10 +10,10 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 @ApplicationScoped
 public class GeekRepository implements PanacheRepository<Geek>{
 
-    public List<Geek> findByName(String name){
-        String likeName = "%"+name+"%";
+    public List<Geek> findByName(String description){
+        String likeDescription = "%"+description+"%";
 
-        return list("name like ?1", likeName);
+        return list("description like ?1", likeDescription);
     }
 
     public List<Geek> listAllOrdenated(){

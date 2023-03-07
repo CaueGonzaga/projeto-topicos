@@ -17,7 +17,7 @@ public class CategoryRepository implements PanacheRepository<Category>{
     }
 
     public List<Category> listAllOrdenated(){
-        return find("Order by id").list();
+        return find("order by id").list();
     }
 }
     

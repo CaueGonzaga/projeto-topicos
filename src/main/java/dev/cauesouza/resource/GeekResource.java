@@ -35,7 +35,7 @@ public class GeekResource {
 
     @POST
     @Transactional
-    public GeekResponseDTO insert (GeekDTO dto){
+    public GeekResponseDTO insertGeek (GeekDTO dto){
         Geek entity = new Geek();
         System.out.println(dto.getDescription());
         entity.setDescription(dto.getDescription());
@@ -55,21 +55,21 @@ public class GeekResource {
     @PUT
     @Transactional
     @Path("/{id}")
-    public Geek updateGeek(@PathParam("id") Long id, Geek GeekUpdated){
-        Geek Geek = findById(id);
+    public GeekResponseDTO updateGeek(@PathParam("id") Long id, GeekDTO geekUpdated){
+        Geek geek = geekRepository.findById(id);
 
-        Geek.setDescription(GeekUpdated.getDescription());
-        Geek.setOrigin(GeekUpdated.getOrigin());
-        Geek.setRating(GeekUpdated.getRating());
-        Geek.setModel(GeekUpdated.getModel());
-        Geek.setPrice(GeekUpdated.getPrice());
+        geek.setDescription(geekUpdated.getDescription());
+        geek.setOrigin(geekUpdated.getOrigin());
+        geek.setRating(geekUpdated.getRating());
+        geek.setModel(geekUpdated.getModel());
+        geek.setPrice(geekUpdated.getPrice());
 
-        return Geek;
+        return new GeekResponseDTO(geek);
     }
 
     @GET
     public List<GeekResponseDTO> listAll(){
-        return geekRepository.findAll()
+        return geekRepository.listAllOrdenated()
         .stream()
         .map(geek -> new GeekResponseDTO(geek))
         .collect(Collectors.toList());
@@ -81,14 +81,18 @@ public class GeekResource {
 
     @GET
     @Path("/{id}")
-    public Geek findById(@PathParam("id")Long id){
-        return geekRepository.findById(id);
+    public GeekResponseDTO findById(@PathParam("id")Long id){
+        Geek geek = geekRepository.findById(id); 
+        return new GeekResponseDTO(geek);
     }
 
     @GET
     @Path("/search/{name}")
-    public List <Geek> getGeeksByName(@PathParam("name")String name){
-        return geekRepository.findByName(name);
+    public List <GeekResponseDTO> getGeeksByName(@PathParam("name")String name){
+        return geekRepository.findByName(name)
+        .stream()
+        .map(geek -> new GeekResponseDTO(geek))
+        .collect(Collectors.toList());
     }
 
     @DELETE
