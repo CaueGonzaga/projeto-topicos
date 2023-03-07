@@ -5,7 +5,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 
 import dev.cauesouza.model.Category;
-import dev.cauesouza.model.Geek;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @ApplicationScoped
